@@ -1,6 +1,5 @@
 function popupBox() {
     const add = document.querySelector(".add-data");
-    const editButtons = document.querySelectorAll(".edit");
     const popupBox = document.querySelector(".popup-box");
     const popupTitle = popupBox.querySelector("header p");
     const closeIcon = popupBox.querySelector("header i");
@@ -13,15 +12,6 @@ function popupBox() {
         addBtn.innerText = "Tambah Data";
         popupBox.classList.add("show");
         document.querySelector("body").style.overflow = "hidden";
-    });
-
-    editButtons.forEach((editButton) => {
-        editButton.addEventListener("click", () => {
-            popupTitle.innerText = "Edit Data Kunjungan";
-            addBtn.innerText = "Ubah Data";
-            popupBox.classList.add("show");
-            document.querySelector("body").style.overflow = "hidden";
-        });
     });
 
     closeIcon.addEventListener("click", () => {

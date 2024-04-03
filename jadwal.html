@@ -1,3 +1,12 @@
+<?php 
+
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header('Location: index.php');
+    exit();
+  }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +34,7 @@
 		</a>
 		<ul class="side-menu top">
 			<li>
-				<a href="index.html">
+				<a href="beranda.php">
 					<i class='bx bxs-dashboard' ></i>
 					<span class="text">Beranda</span>
 				</a>
@@ -37,21 +46,21 @@
 				</a>
 			</li>
 			<li>
-				<a href="datakunjungan.html">
+				<a href="kunjungan.php">
 					<i class='bx bxs-truck'></i>
-					<span class="text">Data Kunjungan</span>
+					<span class="text">Kunjungan</span>
 				</a>
 			</li>
 		</ul>
 		<ul class="side-menu">
 			<li>
-				<a href="settings.html">
+				<a href="pengaturan.php">
 					<i class='bx bxs-cog' ></i>
 					<span class="text">Pengaturan</span>
 				</a>
 			</li>
 			<li>
-				<a href="#" class="logout">
+				<a href="?logout=true" class="logout">
 					<i class='bx bxs-log-out-circle' ></i>
 					<span class="text">Logout</span>
 				</a>
@@ -110,30 +119,32 @@
 			<section id="calendar">
 				<div class="wrapper">
 					<header>
-					  <p class="current-date"></p>
-					  <div class="icons">
-						<span id="prev" class="material-symbols-rounded"><i class='bx bx-left-arrow-alt'></i></span>
-						<span id="next" class="material-symbols-rounded"><i class='bx bx-right-arrow-alt'></i></span>
-					  </div>
+						<p class="current-date"></p>
+						<div class="icons">
+							<span id="prev" class="material-symbols-rounded"><i class='bx bx-left-arrow-alt'></i></span>
+							<span id="next" class="material-symbols-rounded"><i class='bx bx-right-arrow-alt'></i></span>
+						</div>
 					</header>
 					<div class="calendar">
-					  <ul class="weeks">
-						<li>Sun</li>
-						<li>Mon</li>
-						<li>Tue</li>
-						<li>Wed</li>
-						<li>Thu</li>
-						<li>Fri</li>
-						<li>Sat</li>
-					  </ul>
-					  <ul class="days"></ul>
+						<ul class="weeks">
+							<li>Minggu</li>
+							<li>Senin</li>
+							<li>Selasa</li>
+							<li>Rabu</li>
+							<li>Kamis</li>
+							<li>Jumat</li>
+							<li>Sabtu</li>
+						</ul>
+						<ul class="days"></ul>
 					</div>
 				</div>
+				
 				<div class="wrapper">
 					<div class="container-todo">
 						<div class="todo">
 							<div class="head">
-								<h3>Jadwal</h3>								
+								<h3>Jadwal</h3>	
+								<p class="current-date"></p>							
 							</div>
 							<ul class="todo-list">
 								<li class="completed">

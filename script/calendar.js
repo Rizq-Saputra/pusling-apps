@@ -1,13 +1,26 @@
 const daysTag = document.querySelector(".days"),
-currentDate = document.querySelector(".current-date"),
-prevNextIcon = document.querySelectorAll(".icons span");
-// getting new date, current year and month
+    currentDate = document.querySelector(".current-date"),
+    prevNextIcon = document.querySelectorAll(".icons span");
 let date = new Date(),
-currYear = date.getFullYear(),
-currMonth = date.getMonth();
-// storing full name of all months in array
-const months = ["January", "February", "March", "April", "May", "June", "July",
-              "August", "September", "October", "November", "December"];
+    currYear = date.getFullYear(),
+    currMonth = date.getMonth();
+
+const daysIndonesian = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+// Menambahkan event listener pada setiap elemen tanggal
+daysTag.addEventListener("click", (e) => {
+    if (e.target && e.target.matches("li")) {
+        // Mendapatkan nilai tanggal yang dipilih
+        const selectedDate = parseInt(e.target.textContent);
+        // Memperbarui tampilan kalender sesuai dengan tanggal yang dipilih
+        date.setDate(selectedDate);
+        // Memperbarui kalender
+        renderCalendar();
+    }
+});
+
+const monthsIndonesian = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
+
 const renderCalendar = () => {
     let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(), // getting first day of month
     lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(), // getting last date of month
@@ -26,7 +39,7 @@ const renderCalendar = () => {
     for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
         liTag += `<li class="inactive">${i - lastDayofMonth + 1}</li>`
     }
-    currentDate.innerText = `${months[currMonth]} ${currYear}`; // passing current mon and yr as currentDate text
+    currentDate.innerText = `${daysIndonesian[date.getDay()]}, ${date.getDate()} ${monthsIndonesian[currMonth]} ${currYear}`; // Menampilkan format tanggal aktif dalam bahasa Indonesia
     daysTag.innerHTML = liTag;
 }
 renderCalendar();
