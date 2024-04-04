@@ -83,5 +83,10 @@
 #content main .table-data .todo .todo-list {
 	min-width: 420px;
 }
+#calendar{
+	flex-direction: column;
+	gap: 20px;
+}
+
 
 }

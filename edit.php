@@ -3,7 +3,6 @@ session_start();
 require "database.php";
 
 
-//Cek apakah ada nilai yang dikirim menggunakan methos GET dengan nama id_peserta
 if (isset($_GET['id'])) {
 $id = htmlspecialchars($_GET['id']);
 $query = "SELECT * FROM kunjungan WHERE id = $id";
@@ -12,8 +11,6 @@ if (mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
 } else {
     $_SESSION['error'] = "Data tidak ditemukan";
-    // header("Location: index.php");
-    // exit();
 }
 }
 
@@ -32,11 +29,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Eksekusi query
     if (mysqli_query($koneksi, $query)) {
         $_SESSION['success'] = "Data berhasil disimpan";
-        header("Location: index.php");
+        header("Location: kunjungan.php");
         exit();
     } else {
         $_SESSION['error'] = "Data gagal disimpan";
-        header("Location: index.php");
+        header("Location: kunjungan.php");
     }
 }
 
@@ -100,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </a>
     </li>
     <li>
-        <a href="index.php" class="logout">
+        <a href="kunjungan.php" class="logout">
             <i class='bx bxs-log-out-circle' ></i>
             <span class="text">Logout</span>
         </a>
@@ -138,15 +135,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 
-    <section id="edit-data">
+    <section class="edit-data" id="edit-data">
         <div class="container">
             <form class="needs-validation" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" novalidate>
-            <?php if(isset($errors['update'])): ?>
+                <?php if(isset($errors['update'])): ?>
                 <div class="alert alert-danger" role="alert">
                     <?php echo $errors['update']; ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            <?php endif; ?>
+                <?php endif; ?>
             
                 <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
                 <div class="mb-3">
@@ -166,9 +163,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="mb-3">
                     <label for="alamat" class="form-label">Alamat</label>
                     <textarea class="form-control" id="alamat" name="alamat" required><?php echo $row['alamat']; ?></textarea>
-                    <div class="invalid-feedback">
-                        Tolong isi kolom ini terlebih dahulu
-                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="kecamatan" class="form-label">Kecamatan</label>
@@ -181,16 +175,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="status" class="form-label">Status</label>
                     <select class="form-select" id="status" name="status" required>
                         <option value="">Pilih status</option>
-                        <option value="Belum Di kunjungi">Belum Di kunjungi</option>
-                        <option value="Sudah Dikunjungi">Sudah Dikunjungi</option>
-                        <option value="Batal Dikunjungi">Batal Dikunjungi</option>
+                        <option value="Belum Di kunjungi" <?php echo ($row['status'] == 'Belum Di kunjungi') ? 'selected' : ''; ?>>Belum Di kunjungi</option>
+                        <option value="Sudah Dikunjungi" <?php echo ($row['status'] == 'Sudah Dikunjungi') ? 'selected' : ''; ?>>Sudah Dikunjungi</option>
+                        <option value="Batal Dikunjungi" <?php echo ($row['status'] == 'Batal Dikunjungi') ? 'selected' : ''; ?>>Batal Dikunjungi</option>
                     </select>
                     <div class="invalid-feedback">
                         Tolong pilih status kunjungan
                     </div>
                 </div>
+
                 <button id="submitBtn" type="submit" class="btn btn-primary">Simpan Perubahan</button>
-            </form>
+            </form>  
+                
         </div>
     </section>
 
