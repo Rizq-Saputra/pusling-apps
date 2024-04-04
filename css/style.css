@@ -395,7 +395,7 @@ p {
 #content main .head .filter{
 	flex-direction: row;
     display: flex;
-	gap: 10px;
+	gap: 15px;
 	justify-content: center;
     align-items: center;
 }
@@ -649,14 +649,14 @@ p {
 #content main .table-data .order table tr td .status.completed {
 	background: var(--blue);
 }
-#content main .table-data .order table tr td .status.process {
-	background: var(--yellow);
-}
 #content main .table-data .order table tr td .status.pending {
 	background: var(--orange);
 }
+#content main .table-data .order table tr td .status.canceled {
+	background: var(--red);
+}
 #content main .table-data .order table tr td .status.uncompleted {
-	background: var(--orange);
+	background: var(--yellow);
 }
 #content main .table-data .order table tr td button {
 	color: var(--light);
@@ -705,6 +705,16 @@ p {
 }
 .todo .todo-list {
 	width: 100%;
+	color: var(--dark);
+}
+.todo form .form-label{
+	color: var(--dark);	
+}
+.todo .head h3{
+	color: var(--dark);	
+}
+.todo .todo-list p{
+	margin: 5px 0px;
 }
 .todo .todo-list li {
 	width: 100%;
@@ -718,6 +728,13 @@ p {
 }
 .todo .todo-list li .bx {
 	cursor: pointer;
+	font-size: 25px;
+}
+.todo .todo-list li .bxs-check-circle {
+	color: var(--blue);
+}
+.todo .todo-list li .bxs-x-circle {
+	color: var(--red);
 }
 .todo .todo-list li.completed {
 	border-left: 10px solid var(--blue);
@@ -728,6 +745,17 @@ p {
 .todo .todo-list li:last-child {
 	margin-bottom: 0;
 }
+.todo form{
+	margin-top: 20px;
+}
+.todo .form-control {
+    margin-bottom: 10px;
+}
+
+.todo button {
+    width: 100%;
+}
+
 section #settings{
 	margin-top: 25px;
 }
@@ -746,7 +774,6 @@ section #settings label{
 	flex-direction: row;
 	gap: 20px;
 }
-
 .wrapper{
 	width: 450px;
 	margin-top: 30px;
@@ -784,6 +811,7 @@ section #settings label{
   header .current-date{
 	font-size: 1.45rem;
 	font-weight: 500;
+	color: var(--dark);
   }
   .calendar{
 	padding: 20px;
@@ -798,7 +826,7 @@ section #settings label{
 	margin-bottom: 20px;
   }
   .calendar li{
-	color: #333;
+	color: var(--dark);
 	width: calc(100% / 7);
 	font-size: 1.07rem;
   }
@@ -839,6 +867,12 @@ section #settings label{
 /* Calender */
 
 
+
+/* edit-data */
+section .edit-data label{
+	color: var(--dark);
+}
+/* edit-data */
 
 /* Alert */
 
