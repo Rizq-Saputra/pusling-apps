@@ -310,7 +310,6 @@ p {
 }
 #content main .head-title .left .breadcrumb li a {
 	color: var(--dark-grey);
-	pointer-events: none;
 }
 #content main .head-title .left .breadcrumb li a.active {
 	color: var(--blue);
@@ -356,12 +355,12 @@ p {
 	align-items: center;
 }
 #content main .box-info li:nth-child(1) .bx {
-	background: var(--light-blue);
-	color: var(--blue);
-}
-#content main .box-info li:nth-child(2) .bx {
 	background: var(--light-yellow);
 	color: var(--yellow);
+}
+#content main .box-info li:nth-child(2) .bx {
+	background: var(--light-blue);
+	color: var(--blue);
 }
 #content main .box-info li:nth-child(3) .bx {
 	background: var(--light-orange);
@@ -642,21 +641,18 @@ p {
 #content main .table-data .order table tr td .status {
 	font-size: 10px;
 	padding: 6px 16px;
-	color: var(--dark);
+	color: var(--light);
 	border-radius: 20px;
 	font-weight: 700;
 }
 #content main .table-data .order table tr td .status.completed {
 	background: var(--blue);
 }
-#content main .table-data .order table tr td .status.pending {
-	background: var(--orange);
-}
 #content main .table-data .order table tr td .status.canceled {
 	background: var(--red);
 }
 #content main .table-data .order table tr td .status.uncompleted {
-	background: var(--yellow);
+	background: var(--orange);
 }
 #content main .table-data .order table tr td button {
 	color: var(--light);
@@ -729,6 +725,19 @@ p {
 .todo .todo-list li .bx {
 	cursor: pointer;
 	font-size: 25px;
+}
+.todo .todo-list .text .sudah{
+	color: var(--blue);
+}
+.todo .todo-list .text .belum{
+	color: var(--red);
+}
+.todo .todo-list li button{
+	background-color: transparent;
+	border: none;
+}
+.todo .todo-list .text-desc{
+	font-size: 12px;
 }
 .todo .todo-list li .bxs-check-circle {
 	color: var(--blue);
@@ -872,7 +881,31 @@ section #settings label{
 section .edit-data label{
 	color: var(--dark);
 }
+.edit-data form{
+	max-width: 50%;
+}
+.edit-data form button{
+	margin-top: 10px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 25px;
+}
+
+.password_input{
+	position: relative;
+}
 /* edit-data */
+
+/* Page User */
+#scheduleList .card button{
+	margin-top: 10px;
+}
 
 /* Alert */
 

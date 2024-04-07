@@ -26,6 +26,16 @@
 	#content main .table-data .head {
 		flex-direction: row;
 	}
+	.edit-data form{
+		max-width: 100% !important;
+	}
+	.edit-data form input,
+	.edit-data form textarea,
+	.edit-data form select,
+	.edit-data form button
+	{
+		font-size: 12px;
+	}
 
 }
 
