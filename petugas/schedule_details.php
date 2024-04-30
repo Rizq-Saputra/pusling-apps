@@ -2,11 +2,8 @@
 require "../database.php";
 require_once('../lib/format_date.php');
 
-// Periksa apakah parameter id jadwal ada dalam URL
 if (isset($_GET['id'])) {
-    // Ambil id jadwal dari URL dan pastikan itu integer
     $scheduleId = intval($_GET['id']);
-    // Query untuk mengambil detail jadwal berdasarkan id
     $query = "SELECT * FROM kunjungan WHERE id = $scheduleId";
     $result = mysqli_query($koneksi, $query);
 
@@ -26,10 +23,12 @@ if (isset($_GET['id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pusling Aplication">
     <title>Detail Jadwal</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa;
@@ -73,6 +72,7 @@ session_start();
 require_once('../lib/logout.php');
 checkUserRole(['petugas'], '../index.php');
 ?>
+
 <body>
 
     <div class="container mt-5">
@@ -84,19 +84,48 @@ checkUserRole(['petugas'], '../index.php');
                         <?php echo $errorMessage; ?>
                     </div>
                 <?php else : ?>
-                    <h5 class="card-title"><?php echo $schedule['tempat_kunjungan']; ?></h5>
-                    <p class="card-text">Tanggal : <?php echo formatDate($schedule['tanggal']); ?></p>
-                    <p class="card-text"><strong>Alamat</strong> : <?php echo $schedule['alamat']; ?></p>
-                    <p class="card-text"><strong>Kecamatan</strong> : <?php echo $schedule['kecamatan']; ?></p>
-                    <p class="card-text"><strong>Status</strong> : <?php echo $schedule['status']; ?></p>
-                    <p class="card-text"><strong>Petugas Layanan</strong> : <?php echo $schedule['petugas_layanan']; ?></p>
-                    <a href="javascript:history.go(-1)" class="btn btn-primary mt-3">Kembali</a>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Tempat Kunjungan</th>
+                                <td><?php echo $schedule['tempat_kunjungan']; ?></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Tanggal</th>
+                                <td><?php echo formatDate($schedule['tanggal']); ?></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Alamat</th>
+                                <td><i class="fas fa-map-marker-alt"></i> <?php echo $schedule['alamat']; ?></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Kecamatan</th>
+                                <td> <?php echo $schedule['kecamatan']; ?></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Kontak</th>
+                                <td><i class="fas fa-phone"></i> <?php echo $schedule['kontak']; ?></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Jumlah Siswa</th>
+                                <td><i class="fas fa-users"></i> <?php echo $schedule['jumlah_siswa']; ?></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Status</th>
+                                <td><i class="fas fa-check-circle <?php echo ($schedule['status'] === 'Sudah Dikunjungi') ? 'text-success' : 'text-danger'; ?>"></i> <?php echo $schedule['status']; ?></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Petugas Layanan</th>
+                                <td><i class="fas fa-user"></i> <?php echo $schedule['petugas_layanan']; ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="javascript:history.go(-1)" class="btn btn-primary mt-3"><i class="fas fa-arrow-left me-1"></i> Kembali</a>
                 <?php endif; ?>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap Bundle JS (diperlukan untuk komponen Bootstrap) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

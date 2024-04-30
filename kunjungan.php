@@ -9,6 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['a
 	$alamat = $_POST['alamat'];
 	$kecamatan = $_POST['kecamatan'];
 	$kontak = $_POST['kontak'];
+	$jumlah_siswa = $_POST['jumlah_siswa'];
 	$petugas = $_POST['petugas'];
 	$status = "Belum Di kunjungi";
 
@@ -17,8 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['a
 		$_SESSION['error'] = "Data Gagal ditambahkan";
 		$error_message = "Mohon lengkapi semua kolom.";
 	} else {
-		$query = "INSERT INTO kunjungan (tanggal, tempat_kunjungan, alamat, kecamatan, status, kontak, petugas_layanan) 
-                  VALUES ('$tanggal', '$tempat_kunjungan', '$alamat', '$kecamatan', '$status', '$kontak', '$petugas')";
+		$query = "INSERT INTO kunjungan (tanggal, tempat_kunjungan, alamat, kecamatan, status, kontak, jumlah_siswa, petugas_layanan) 
+                  VALUES ('$tanggal', '$tempat_kunjungan', '$alamat', '$kecamatan', '$status', '$kontak', $jumlah_siswa ,'$petugas')";
 
 		if (mysqli_query($koneksi, $query)) {
 			$_SESSION['success'] = "Data berhasil ditambahkan";
@@ -38,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['a
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Pusling Aplication">
 	<!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<!-- bootstrap -->
@@ -58,8 +60,6 @@ checkUserRole(['admin']);
 ?>
 
 <body>
-
-
 	<!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="#" class="brand">
@@ -240,6 +240,13 @@ checkUserRole(['admin']);
 									</div>
 								</div>
 								<div class="row form-group">
+									<label for="Jumlah Siswa">Jumlah Siswa</label>
+									<input type="text" id="jumlah_siswa" name="jumlah_siswa" class="form-control" required spellcheck="false" pattern="[0-9]+" title="Hanya boleh angka (0-9) saja">
+									<div class="invalid-feedback">
+										Masukkan hanya angka (0-9) untuk Jumlah Siswa
+									</div>
+								</div>
+								<div class="row form-group">
 									<label for="petugas">Petugas Layanan</label>
 									<input type="text" id="petugas" name="petugas" class="form-control">
 								</div>
@@ -265,8 +272,8 @@ checkUserRole(['admin']);
 						</div>
 						<form class="filter" method="GET">
 							<div class="form-input">
-								<input type="search" name="search" placeholder="Cari..." value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
-								<button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+								<input type="search" name="search" placeholder="Cari..." id="keyword" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+								<button type="submit" class="search-btn" id="tombol-cari"><i class='bx bx-search'></i></button>
 							</div>
 							<span>
 								<select name="sort">
@@ -285,23 +292,23 @@ checkUserRole(['admin']);
 							<span><button type="submit">Filter <i class='bx bx-filter'></i></button></span>
 						</form>
 					</div>
+					<div id="container_table">
+						<?php
+						include "database.php";
 
-					<?php
-					include "database.php";
+						$query = "SELECT * FROM kunjungan WHERE 1";
 
-					$query = "SELECT * FROM kunjungan WHERE 1";
+						if (isset($_GET['status']) && $_GET['status'] !== "semua") {
+							$status = $_GET['status'];
+							$query .= " AND status = '" . mysqli_real_escape_string($koneksi, $status) . "'";
+						}
 
-					if (isset($_GET['status']) && $_GET['status'] !== "semua") {
-						$status = $_GET['status'];
-						$query .= " AND status = '" . mysqli_real_escape_string($koneksi, $status) . "'";
-					}
-
-					// Menambahkan pencarian berdasarkan input 'search'
-					if (isset($_GET['search'])) {
-						$search = $_GET['search'];
-						$escaped_search = mysqli_real_escape_string($koneksi, $search);
-						// Menambahkan kondisi pencarian ke setiap kolom yang ingin dicari
-						$query .= " AND (
+						// Menambahkan pencarian berdasarkan input 'search'
+						if (isset($_GET['search'])) {
+							$search = $_GET['search'];
+							$escaped_search = mysqli_real_escape_string($koneksi, $search);
+							// Menambahkan kondisi pencarian ke setiap kolom yang ingin dicari
+							$query .= " AND (
 							tempat_kunjungan LIKE '%$escaped_search%' OR
 							alamat LIKE '%$escaped_search%' OR
 							kecamatan LIKE '%$escaped_search%' OR
@@ -309,21 +316,21 @@ checkUserRole(['admin']);
 							petugas_layanan LIKE '%$escaped_search%' OR
 							status LIKE '%$escaped_search%'
 						)";
-					}
-
-					if (isset($_GET['sort'])) {
-						$sort = $_GET['sort'];
-						if ($sort == "terbaru") {
-							$query .= " ORDER BY tanggal DESC";
-						} elseif ($sort == "terlama") {
-							$query .= " ORDER BY tanggal ASC";
 						}
-					}
 
-					$result = mysqli_query($koneksi, $query);
+						if (isset($_GET['sort'])) {
+							$sort = $_GET['sort'];
+							if ($sort == "terbaru") {
+								$query .= " ORDER BY tanggal DESC";
+							} elseif ($sort == "terlama") {
+								$query .= " ORDER BY tanggal ASC";
+							}
+						}
 
-					if (mysqli_num_rows($result) > 0) {
-						echo '<table class="table table-bordered">
+						$result = mysqli_query($koneksi, $query);
+
+						if (mysqli_num_rows($result) > 0) {
+							echo '<table class="table table-bordered">
 								<thead>
 									<tr>
 										<th>Tanggal</th>
@@ -331,6 +338,7 @@ checkUserRole(['admin']);
 										<th>Alamat</th>
 										<th>Kecamatan</th>
 										<th>Kontak</th>
+										<th>Jumlah Siswa</th>
 										<th>Petugas Layanan</th>
 										<th>Status</th>
 										<th>Aksi</th>
@@ -338,52 +346,55 @@ checkUserRole(['admin']);
 								</thead>
 								<tbody>';
 
-						$nama_hari = array("Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu");
-						// Loop melalui setiap baris data
-						while ($row = mysqli_fetch_assoc($result)) {
-							// Menggunakan tanggal dalam bahasa Indonesia
-							$tanggal_bahasa_indonesia = $nama_hari[date('w', strtotime($row['tanggal']))] . ' ' . date('j F Y', strtotime($row['tanggal']));
+							$nama_hari = array("Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu");
+							// Loop melalui setiap baris data
+							while ($row = mysqli_fetch_assoc($result)) {
+								// Menggunakan tanggal dalam bahasa Indonesia
+								$tanggal_bahasa_indonesia = $nama_hari[date('w', strtotime($row['tanggal']))] . ' ' . date('j F Y', strtotime($row['tanggal']));
 
-							echo '<tr>';
-							// Menggunakan tanggal dalam bahasa Indonesia
-							echo '<td>' . $tanggal_bahasa_indonesia . '</td>';
-							echo '<td>' . $row['tempat_kunjungan'] . '</td>';
-							echo '<td>' . $row['alamat'] . '</td>';
-							echo '<td>' . $row['kecamatan'] . '</td>';
-							echo '<td>' . $row['kontak'] . '</td>';
-							echo '<td>' . $row['petugas_layanan'] . '</td>';
-							// Menggunakan status untuk menentukan kelas CSS
-							$status_class = "";
-							switch ($row['status']) {
-								case "Belum Di kunjungi":
-									$status_class = "uncompleted";
-									break;
-								case "Sudah Dikunjungi":
-									$status_class = "completed";
-									break;
-								case "Batal Dikunjungi":
-									$status_class = "canceled";
-									break;
-								default:
-									$status_class = "";
-									break;
+								echo '<tr>';
+								// Menggunakan tanggal dalam bahasa Indonesia
+								echo '<td>' . $tanggal_bahasa_indonesia . '</td>';
+								echo '<td>' . $row['tempat_kunjungan'] . '</td>';
+								echo '<td>' . $row['alamat'] . '</td>';
+								echo '<td>' . $row['kecamatan'] . '</td>';
+								echo '<td>' . $row['kontak'] . '</td>';
+								echo '<td>' . $row['jumlah_siswa'] . '</td>';
+								echo '<td>' . $row['petugas_layanan'] . '</td>';
+								// Menggunakan status untuk menentukan kelas CSS
+								$status_class = "";
+								switch ($row['status']) {
+									case "Belum Di kunjungi":
+										$status_class = "uncompleted";
+										break;
+									case "Sudah Dikunjungi":
+										$status_class = "completed";
+										break;
+									case "Batal Dikunjungi":
+										$status_class = "canceled";
+										break;
+									default:
+										$status_class = "";
+										break;
+								}
+								echo '<td><span class="status ' . $status_class . '">' . $row['status'] . '</span></td>';
+								echo '<td>';
+								echo '<div class="btn-group">';
+								echo '<a href="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $row['id'] . '"><button class="delete"><p><i class="bx bxs-trash-alt"></i> Delete</p></button></a>';
+								echo '<a href="action/edit_kunjungan.php?id=' . htmlspecialchars($row['id']) . '"><button class="edit"><p><i class="bx bxs-edit-alt"></i> Edit</p></button></a>';
+								echo '</div>';
+								echo '</td>';
+								echo '</tr>';
 							}
-							echo '<td><span class="status ' . $status_class . '">' . $row['status'] . '</span></td>';
-							echo '<td>';
-							echo '<div class="btn-group">';
-							echo '<a href="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $row['id'] . '"><button class="delete"><p><i class="bx bxs-trash-alt"></i> Delete</p></button></a>';
-							echo '<a href="action/edit_kunjungan.php?id=' . htmlspecialchars($row['id']) . '"><button class="edit"><p><i class="bx bxs-edit-alt"></i> Edit</p></button></a>';
-							echo '</div>';
-							echo '</td>';
-							echo '</tr>';
+							echo '</tbody>
+							</table>
+						';
+						} else {
+							echo '<p>Tidak ada Data Kunjungan yang ditemukan.</p>';
 						}
-						echo '</tbody></table>';
-					} else {
-						echo '<p>Tidak ada Data Kunjungan yang ditemukan.</p>';
-					}
-					?>
+						?>
 
-
+					</div>
 				</div>
 			</div>
 
@@ -396,6 +407,7 @@ checkUserRole(['admin']);
 	<script src="script/script.js"></script>
 	<script src="script/popup.js"></script>
 	<script src="script/validation.js"></script>
+	<script src="script/ajax.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<?php
 

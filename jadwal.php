@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Pusling Aplication">
 	<!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<!-- SweetAlert -->
@@ -204,57 +205,17 @@ checkUserRole(['admin']);
 						<div class="todo">
 							<div class="head">
 								<h3>Jadwal</h3>
-								<form class="d-block" method="POST">
-									<div>
-										<label for="inputDate" class="form-label">Pilih Tanggal</label>
-										<input type="date" class="form-control" id="inputDate" name="selectedDate" value="<?= isset($_POST["selectedDate"]) ? $_POST["selectedDate"] : date('Y-m-d') ?>">
-									</div>
-									<div>
-										<button type="submit" class="btn btn-primary">Lihat</button>
-									</div>
-								</form>
 							</div>
 							<ul class="todo-list">
-								<p><?= $tanggal_indonesia ?></p>
-								<p><?= $tempat_kunjungan ?></p>
+								<div id="list_jadwal">
+									<p><?= $tanggal_indonesia ?></p>
+									<p><?= $tempat_kunjungan ?></p>
+								</div>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</section>
-
-			<?php
-			$query = "SELECT * FROM kunjungan";
-
-			// Filter berdasarkan pencarian (search)
-			if (isset($_GET['search']) && !empty($_GET['search'])) {
-				$search = mysqli_real_escape_string($koneksi, $_GET['search']);
-				$query .= " WHERE
-						tempat_kunjungan LIKE '%$search%' OR
-						alamat LIKE '%$search%' OR
-						kontak LIKE '%$search%' OR
-						petugas_layanan LIKE '%$search%' OR
-						status LIKE '%$search%'";
-			}
-
-			// Filter berdasarkan tanggal yang dipilih
-			if (isset($_POST['selectedDate']) && !empty($_POST['selectedDate'])) {
-				$selectedDate = mysqli_real_escape_string($koneksi, $_POST['selectedDate']);
-				if (strpos($query, 'WHERE') !== false) {
-					$query .= " AND tanggal = '$selectedDate'";
-				} else {
-					$query .= " WHERE tanggal = '$selectedDate'";
-				}
-			}
-
-			// Lakukan query ke database
-			$result = mysqli_query($koneksi, $query);
-
-			// Periksa hasil query
-			if ($result === false) {
-				die('Query error: ' . mysqli_error($koneksi));
-			}
-			?>
 
 			<div class="table-data">
 				<div class="order">
@@ -262,12 +223,6 @@ checkUserRole(['admin']);
 						<div class="left-head">
 							<h3>Jadwal</h3>
 						</div>
-						<form class="filter" method="GET">
-							<div class="form-input">
-								<input type="search" name="search" placeholder="Cari..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
-								<button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
-							</div>
-						</form>
 					</div>
 					<table>
 						<thead>
@@ -280,8 +235,10 @@ checkUserRole(['admin']);
 								<th>Petugas Layanan</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="tabel_jadwal">
 							<?php
+							$query = "SELECT * FROM kunjungan WHERE tanggal = '$selectedDate'";
+							$result = mysqli_query($koneksi, $query);
 							if (mysqli_num_rows($result) > 0) {
 								while ($row = mysqli_fetch_assoc($result)) {
 									echo '<tr>';

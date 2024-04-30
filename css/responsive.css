@@ -1,102 +1,166 @@
 /* Responsive Design */
 @media screen and (max-width: 768px) {
-	#sidebar {
-		width: 200px;
-	}
+  #sidebar {
+    width: 200px;
+  }
 
-	#content {
-		width: calc(100% - 60px);
-		left: 200px;
-	}
+  #content {
+    width: calc(100% - 60px);
+    left: 200px;
+  }
 
-	#content nav .nav-link {
-		display: none;
-	}
+  #content nav .nav-link {
+    display: none;
+  }
 
-	#content main .head-title .download{
-		flex-direction: column;
-	}
-	#content main .table-data .head .left-head {
-		flex-direction: column;
-	}
-	#content main .table-data .head .left-head h3 {
-		margin-right: 0px;
-		font-size: small;
-	}
-	#content main .table-data .head {
-		flex-direction: row;
-	}
-	.edit-data form{
-		max-width: 100% !important;
-	}
-	.edit-data form input,
-	.edit-data form textarea,
-	.edit-data form select,
-	.edit-data form button
-	{
-		font-size: 12px;
-	}
-
+  #content main .head-title .download {
+    flex-direction: column;
+  }
+  #content main .table-data .head .left-head {
+    margin-right: 12px;
+  }
+  #content main .table-data .head .left-head h3 {
+    margin-right: 0px;
+    font-size: small;
+  }
+  #content main .table-data .head {
+    flex-direction: row;
+  }
+  .edit-data form {
+    max-width: 100% !important;
+  }
+  .edit-data form input,
+  .edit-data form textarea,
+  .edit-data form select,
+  .edit-data form button {
+    font-size: 12px;
+  }
 }
-
-
 
 @media screen and (max-width: 576px) {
-#content main .head-title .left h1 {
-	font-size: 23px;}
-.popup-box {
-	left: 30px;
-}
-#popup .popup {
-	max-width: 250px;
-}
-#popup .popup header p {
-	font-size: smaller;
-}
+  #content main .head-title .left h1 {
+    font-size: 23px;
+  }
+  .popup-box {
+    left: 30px;
+  }
+  #popup .popup {
+    max-width: 250px;
+  }
+  #popup .popup header p {
+    font-size: smaller;
+  }
 
-#content nav form .form-input input {
-	display: none;
-}
+  #content nav form .form-input input {
+    display: none;
+  }
 
-#content nav form .form-input button {
-	width: auto;
-	height: auto;
-	background: transparent;
-	border-radius: none;
-	color: var(--dark);
-}
-#content nav form.show .form-input input {
-	display: block;
-	width: 100%;
-}
-#content nav form.show .form-input button {
-	width: 36px;
-	height: 100%;
-	border-radius: 0 36px 36px 0;
-	color: var(--light);
-	background: var(--red);
-}
+  #content nav form .form-input button {
+    width: auto;
+    height: auto;
+    background: transparent;
+    border-radius: none;
+    color: var(--dark);
+  }
+  #content nav form.show .form-input input {
+    display: block;
+    width: 100%;
+  }
+  #content nav form.show .form-input button {
+    width: 36px;
+    height: 100%;
+    border-radius: 0 36px 36px 0;
+    color: var(--light);
+    background: var(--red);
+  }
 
-#content nav form.show ~ .notification,
-#content nav form.show ~ .profile {
-	display: none;
+  #content nav form.show ~ .notification,
+  #content nav form.show ~ .profile {
+    display: none;
+  }
+  #content main .box-info {
+    grid-template-columns: 1fr;
+  }
+  #content main .table-data .head {
+    min-width: 420px;
+  }
+  #content main .table-data .order table {
+    min-width: 420px;
+  }
+  #content main .table-data .todo .todo-list {
+    min-width: 420px;
+  }
+  #calendar {
+    flex-direction: column;
+    gap: 20px;
+  }
+  #calendar .wrapper {
+    width: 300px;
+  }
+  #calendar .wrapper header .current-date {
+    font-size: small;
+  }
+  .calendar .weeks li {
+    font-size: xx-small;
+  }
+  .calendar .days li {
+    font-size: small;
+  }
+  .todo .todo-list li {
+    font-size: small;
+  }
+  .todo .head h3 {
+    text-align: center;
+  }
+  header .icons span {
+    font-size: 1rem;
+  }
 }
-#content main .box-info {
-	grid-template-columns: 1fr;
+@media screen and (max-width: 380px) {
+  section #settings h2 {
+    font-size: 16px;
+  }
+  #content main .head-title .download {
+    font-size: 12px;
+  }
+  #content main .box-info li {
+    width: 95%;
+  }
+  #content main .box-info li .text p {
+    font-size: small;
+  }
+  #calendar .wrapper {
+    width: 100%;
+  }
+  .days li::before {
+    height: 25px;
+    width: 25px;
+  }
+  .calendar .weeks li {
+    font-size: 8px;
+  }
+  .todo .todo-list li {
+    font-size: x-small;
+  }
 }
-#content main .table-data .head {
-	min-width: 420px;
-}
-#content main .table-data .order table {
-	min-width: 420px;
-}
-#content main .table-data .todo .todo-list {
-	min-width: 420px;
-}
-#calendar{
-	flex-direction: column;
-	gap: 20px;
-}
-
-
+@media screen and (max-width: 330px) {
+  .form-control {
+    font-size: x-small;
+  }
+  #content main .head-title .download {
+    font-size: 10px;
+  }
+  #content main .head-title .left h1 {
+    font-size: 20px;
+  }
+  .calendar .weeks li {
+    font-size: 6px;
+  }
+  #calendar .wrapper header .current-date {
+    font-size: xx-small;
+  }
+  header .icons span {
+    height: 25px;
+    width: 25px;
+  }
 }

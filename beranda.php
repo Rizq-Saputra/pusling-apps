@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Pusling Aplication">
 	<!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<!-- bootstrap -->
@@ -80,14 +81,6 @@ checkUserRole(['admin']);
 			<i class='bx bx-menu'></i>
 			<input type="checkbox" id="switch-mode" hidden>
 			<label for="switch-mode" class="switch-mode"></label>
-			<!-- <a href="#" class="notification">
-				<i class='bx bxs-bell' ></i>
-				<span class="num">8</span>
-			</a> -->
-			<!-- <a href="#" class="profile">
-				<img src="img/people.png">
-			</a> -->
-		</nav>
 		<!-- NAVBAR -->
 
 		<!-- MAIN -->
@@ -96,13 +89,6 @@ checkUserRole(['admin']);
 				<div class="left">
 					<h1>Beranda</h1>
 					<ul class="breadcrumb">
-						<!-- <li>
-							<a href="#">Data Kunjungan</a>
-						</li>
-						<li><i class='bx bx-chevron-right' ></i></li>
-						<li>
-							<a class="active" href="#">Beranda</a>
-						</li> -->
 					</ul>
 				</div>
 			</div>

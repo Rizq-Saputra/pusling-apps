@@ -50,6 +50,7 @@
                         <th>Alamat</th>
                         <th>Kecamatan</th>
                         <th>Kontak</th>
+                        <th>Jumlah Siswa</th>
                         <th>Petugas Layanan</th>
                         <th>Status</th>
                     </tr>
@@ -67,6 +68,7 @@
             echo '<td>' . $row['alamat'] . '</td>';
             echo '<td>' . $row['kecamatan'] . '</td>';
 			echo '<td style="mso-number-format:\@;">' . $row['kontak'] . '</td>';
+			echo '<td>' . $row['jumlah_siswa'] . '</td>';
 			echo '<td>' . $row['petugas_layanan'] . '</td>';
             
             // Menggunakan status untuk menentukan kelas CSS

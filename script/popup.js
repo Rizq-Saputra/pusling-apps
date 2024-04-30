@@ -21,12 +21,6 @@ function popupBox() {
         document.querySelector("body").style.overflow = "auto";
     });
 
-    // 	window.addEventListener('resize', function () {
-	// 	if (this.innerWidth > 576) {
-	// 		searchButtonIcon.classList.replace('bx-x', 'bx-search');
-	// 		searchForm.classList.remove('show');
-	// 	}
-	// });
 }
 
 popupBox();

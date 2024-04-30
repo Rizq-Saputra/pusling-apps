@@ -5,11 +5,6 @@ require_once "../database.php";
 if (isset($_GET['id'])) {
     $id = htmlspecialchars($_GET["id"]);
 
-    // Pastikan ada session login
-    // if (!isset($_SESSION['username'])) {
-    //     die("Akses tidak sah");
-    // }
-
     $query = "DELETE FROM pengguna WHERE id_pengguna = $id";
 
     if (mysqli_query($koneksi, $query)) {

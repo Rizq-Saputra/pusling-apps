@@ -5,8 +5,8 @@ require_once "database.php";
 $errors = array();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = htmlspecialchars($_POST['new_username']); // Menggunakan htmlspecialchars untuk mencegah XSS
-    $password = htmlspecialchars($_POST['new_password']); // Menggunakan htmlspecialchars untuk mencegah XSS
+    $username = htmlspecialchars($_POST['new_username']);
+    $password = htmlspecialchars($_POST['new_password']);
     $role = $_POST['role'];
 
     // Validasi username
@@ -55,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Pusling Aplication">
     <!-- Boxicons -->
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <!-- Bootstrap -->

@@ -6,17 +6,17 @@ if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: ../index.php');
     exit();
-  }
+}
 
 if (isset($_GET['id'])) {
-$id = htmlspecialchars($_GET['id']);
-$query = "SELECT * FROM kunjungan WHERE id = $id";
-$result = mysqli_query($koneksi, $query);
-if (mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-} else {
-    $_SESSION['error'] = "Data tidak ditemukan";
-}
+    $id = htmlspecialchars($_GET['id']);
+    $query = "SELECT * FROM kunjungan WHERE id = $id";
+    $result = mysqli_query($koneksi, $query);
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+    } else {
+        $_SESSION['error'] = "Data tidak ditemukan";
+    }
 }
 
 
@@ -28,10 +28,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $kecamatan = htmlspecialchars($_POST['kecamatan']);
     $petugas = htmlspecialchars($_POST['petugas']);
     $kontak = htmlspecialchars($_POST['kontak']);
+    $jumlah_siswa = htmlspecialchars($_POST['jumlah_siswa']);
     $status = htmlspecialchars($_POST['status']);
 
     // Query untuk update data
-    $query = "UPDATE kunjungan SET tanggal = '$tanggal', tempat_kunjungan = '$tempat_kunjungan', alamat = '$alamat', kecamatan = '$kecamatan', kontak = '$kontak' , status = '$status', petugas_layanan = '$petugas' WHERE id = $id";
+    $query = "UPDATE kunjungan SET tanggal = '$tanggal', tempat_kunjungan = '$tempat_kunjungan', alamat = '$alamat', kecamatan = '$kecamatan', kontak = '$kontak' , jumlah_siswa = '$jumlah_siswa' , status = '$status', petugas_layanan = '$petugas' WHERE id = $id";
 
     // Eksekusi query
     if (mysqli_query($koneksi, $query)) {
@@ -47,220 +48,231 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <!-- Boxicons -->
-   <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- SweetAlert -->
+    <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- My CSS -->
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/responsive.css">    
+    <link rel="stylesheet" href="../css/responsive.css">
     <title>Edit Data Kunjungan</title>
 </head>
+
 <body>
 
- <!-- SIDEBAR -->
- <section id="sidebar">
+    <!-- SIDEBAR -->
+    <section id="sidebar">
 
-<a href="#" class="brand">
-    <i class='bx bxs-truck' ></i>
-    <span class="text">Pusling</span>
-</a>
-<ul class="side-menu top">
-    <li>
-        <a href="../beranda.php">
-            <i class='bx bxs-dashboard' ></i>
-            <span class="text">Beranda</span>
-        </a>
-    </li>
-    <li>
-        <a href="../jadwal.php">
-            <i class='bx bxs-calendar'></i>
-            <span class="text">Jadwal Kunjungan</span>
-        </a>
-    </li>
-    <li class="active">
-        <a href="../kunjungan.php">
+        <a href="#" class="brand">
             <i class='bx bxs-truck'></i>
-            <span class="text">Kunjungan</span>
+            <span class="text">Pusling</span>
         </a>
-    </li>
-</ul>
-<ul class="side-menu">
-    <li>
-        <a href="../pengaturan.php">
-            <i class='bx bxs-cog' ></i>
-            <span class="text">Pengaturan</span>
-        </a>
-    </li>
-    <li>
-        <a href="?logout=true" class="logout">
-            <i class='bx bxs-log-out-circle' ></i>
-            <span class="text">Logout</span>
-        </a>
-    </li>
-</ul>
-</section>
-<!-- SIDEBAR -->
-
-
-
-<!-- CONTENT -->
-<section id="content">
-<!-- NAVBAR -->
-<nav>
-    <i class='bx bx-menu' ></i>
-    <input type="checkbox" id="switch-mode" hidden>
-    <label for="switch-mode" class="switch-mode"></label>
-</nav>
-<!-- NAVBAR -->
-
-<!-- MAIN -->
-<main>
-    <div class="head-title">
-        <div class="left">
-            <h1>Edit data</h1>
-            <ul class="breadcrumb">
-                <li>
-                    <a href="../kunjungan.php">Kunjungan</a>
-                </li>
-                <li><i class='bx bx-chevron-right' ></i></li>
-                <li>
-                    <a class="active" href="#">Edit Data</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <section class="edit-data" id="edit-data">
-        <div class="container">
-            <form class="needs-validation" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" novalidate>
-                <?php if(isset($errors['update'])): ?>
-                <div class="alert alert-danger" role="alert">
-                    <?php echo $errors['update']; ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <?php endif; ?>
-
-                <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-
-                <div class="mb-3">
-                    <label for="tanggal" class="form-label">Tanggal</label>
-                    <input type="date" class="form-control" id="tanggal" name="tanggal" value="<?php echo $row['tanggal']; ?>" required>
-                    <div class="invalid-feedback">
-                        Tolong isi kolom ini terlebih dahulu.
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="tempat" class="form-label">Tempat Kunjungan</label>
-                    <input type="text" class="form-control" id="tempat" name="tempat" value="<?php echo $row['tempat_kunjungan']; ?>" required>
-                    <div class="invalid-feedback">
-                        Tolong isi kolom ini terlebih dahulu.
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="alamat" class="form-label">Alamat</label>
-                    <textarea class="form-control" id="alamat" name="alamat" required><?php echo $row['alamat']; ?></textarea>
-                    <div class="invalid-feedback">
-                        Tolong isi kolom ini terlebih dahulu.
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="kecamatan" class="form-label">Kecamatan</label>
-                    <input type="text" class="form-control" id="kecamatan" name="kecamatan" value="<?php echo $row['kecamatan']; ?>" required>
-                    <div class="invalid-feedback">
-                        Tolong isi kolom ini terlebih dahulu.
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="kontak" class="form-label">Kontak</label>
-                    <input type="text" class="form-control" id="kontak" name="kontak" value="<?php echo $row['kontak']; ?>" required pattern="[0-9]+" spellcheck="false" title="Hanya boleh angka (0-9) saja">
-                    <div class="invalid-feedback">
-                        Masukkan hanya angka (0-9) untuk kontak.
-                    </div>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="petugas" class="form-label">Petugas Layanan</label>
-                    <input type="text" class="form-control" id="petugas" name="petugas" value="<?php echo $row['petugas_layanan']; ?>" >
-                </div>
-
-                <div class="mb-3">
-                    <label for="status" class="form-label">Status</label>
-                    <select class="form-select" id="status" name="status" required>
-                        <option value="">Pilih status</option>
-                        <option value="Belum Di kunjungi" <?php echo ($row['status'] == 'Belum Di kunjungi') ? 'selected' : ''; ?>>Belum Di kunjungi</option>
-                        <option value="Sudah Dikunjungi" <?php echo ($row['status'] == 'Sudah Dikunjungi') ? 'selected' : ''; ?>>Sudah Dikunjungi</option>
-                        <option value="Batal Dikunjungi" <?php echo ($row['status'] == 'Batal Dikunjungi') ? 'selected' : ''; ?>>Batal Dikunjungi</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        Tolong pilih status kunjungan.
-                    </div>
-                </div>
-
-                <button id="submitBtn" type="submit" class="btn btn-primary">Simpan Perubahan</button>
-            </form>
-                
-        </div>
+        <ul class="side-menu top">
+            <li>
+                <a href="../beranda.php">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="text">Beranda</span>
+                </a>
+            </li>
+            <li>
+                <a href="../jadwal.php">
+                    <i class='bx bxs-calendar'></i>
+                    <span class="text">Jadwal Kunjungan</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="../kunjungan.php">
+                    <i class='bx bxs-truck'></i>
+                    <span class="text">Kunjungan</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="../pengaturan.php">
+                    <i class='bx bxs-cog'></i>
+                    <span class="text">Pengaturan</span>
+                </a>
+            </li>
+            <li>
+                <a href="?logout=true" class="logout">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
     </section>
+    <!-- SIDEBAR -->
 
 
-</main>
-<!-- MAIN -->
-</section>
-<!-- CONTENT -->
 
-<script src="../script/script.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('submitBtn').addEventListener('click', function (event) {
-            event.preventDefault(); 
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav>
+            <i class='bx bx-menu'></i>
+            <input type="checkbox" id="switch-mode" hidden>
+            <label for="switch-mode" class="switch-mode"></label>
+        </nav>
+        <!-- NAVBAR -->
 
-            Swal.fire({
-                title: 'Anda Yakin Ingin Mengubah Data ini?',
-                text: 'Data akan diubah secara otomatis',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya Ubah Data!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let forms = document.querySelectorAll('.needs-validation');
-                    let validation = true;
+        <!-- MAIN -->
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Edit data</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="../kunjungan.php">Kunjungan</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="#">Edit Data</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-                    Array.prototype.slice.call(forms).forEach(function (form) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                            form.classList.add('was-validated');
-                            validation = false;
+            <section class="edit-data" id="edit-data">
+                <div class="container">
+                    <form class="needs-validation" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" novalidate>
+                        <?php if (isset($errors['update'])) : ?>
+                            <div class="alert alert-danger" role="alert">
+                                <?php echo $errors['update']; ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <?php endif; ?>
+
+                        <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+
+                        <div class="mb-3">
+                            <label for="tanggal" class="form-label">Tanggal</label>
+                            <input type="date" class="form-control" id="tanggal" name="tanggal" value="<?php echo $row['tanggal']; ?>" required>
+                            <div class="invalid-feedback">
+                                Tolong isi kolom ini terlebih dahulu.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tempat" class="form-label">Tempat Kunjungan</label>
+                            <input type="text" class="form-control" id="tempat" name="tempat" value="<?php echo $row['tempat_kunjungan']; ?>" required>
+                            <div class="invalid-feedback">
+                                Tolong isi kolom ini terlebih dahulu.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="alamat" class="form-label">Alamat</label>
+                            <textarea class="form-control" id="alamat" name="alamat" required><?php echo $row['alamat']; ?></textarea>
+                            <div class="invalid-feedback">
+                                Tolong isi kolom ini terlebih dahulu.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="kecamatan" class="form-label">Kecamatan</label>
+                            <input type="text" class="form-control" id="kecamatan" name="kecamatan" value="<?php echo $row['kecamatan']; ?>" required>
+                            <div class="invalid-feedback">
+                                Tolong isi kolom ini terlebih dahulu.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="kontak" class="form-label">Kontak</label>
+                            <input type="text" class="form-control" id="kontak" name="kontak" value="<?php echo $row['kontak']; ?>" required pattern="[0-9]+" spellcheck="false" title="Hanya boleh angka (0-9) saja">
+                            <div class="invalid-feedback">
+                                Masukkan hanya angka (0-9) untuk kontak.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Jumlah Siswa" class="form-label">Jumlah Siswa</label>
+                            <input type="text" class="form-control" id="jumlah_siswa" name="jumlah_siswa" value="<?php echo $row['jumlah_siswa']; ?>" required pattern="[0-9]+" spellcheck="false" title="Hanya boleh angka (0-9) saja">
+                            <div class="invalid-feedback">
+                                Masukkan hanya angka (0-9) untuk jumlah siswa.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="petugas" class="form-label">Petugas Layanan</label>
+                            <input type="text" class="form-control" id="petugas" name="petugas" value="<?php echo $row['petugas_layanan']; ?>">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="">Pilih status</option>
+                                <option value="Belum Di kunjungi" <?php echo ($row['status'] == 'Belum Di kunjungi') ? 'selected' : ''; ?>>Belum Di kunjungi</option>
+                                <option value="Sudah Dikunjungi" <?php echo ($row['status'] == 'Sudah Dikunjungi') ? 'selected' : ''; ?>>Sudah Dikunjungi</option>
+                                <option value="Batal Dikunjungi" <?php echo ($row['status'] == 'Batal Dikunjungi') ? 'selected' : ''; ?>>Batal Dikunjungi</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Tolong pilih status kunjungan.
+                            </div>
+                        </div>
+
+                        <button id="submitBtn" type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    </form>
+
+                </div>
+            </section>
+
+
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+    <script src="../script/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('submitBtn').addEventListener('click', function(event) {
+                event.preventDefault();
+
+                Swal.fire({
+                    title: 'Anda Yakin Ingin Mengubah Data ini?',
+                    text: 'Data akan diubah secara otomatis',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya Ubah Data!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let forms = document.querySelectorAll('.needs-validation');
+                        let validation = true;
+
+                        Array.prototype.slice.call(forms).forEach(function(form) {
+                            if (!form.checkValidity()) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                                form.classList.add('was-validated');
+                                validation = false;
+                            }
+                        });
+
+                        if (validation) {
+                            document.querySelector('.needs-validation').submit();
+                        } else {
+                            Swal.fire('Ada kesalahan pada inputan.', 'Tolong isi semua kolom dengan benar.', 'error');
                         }
-                    });
-
-                    if (validation) {
-                        document.querySelector('.needs-validation').submit();
                     } else {
-                        Swal.fire('Ada kesalahan pada inputan.', 'Tolong isi semua kolom dengan benar.', 'error');
+                        Swal.fire('Perubahan Data Dibatalkan', '', 'info');
+                        header("Location: ../kunjungan.php");
                     }
-                } else {
-                    Swal.fire('Perubahan Data Dibatalkan', '', 'info');
-                    header("Location: ../kunjungan.php");
-                }
+                });
             });
         });
-    });
-</script>
+    </script>
 
 
 </body>
+
 </html>
